@@ -81,41 +81,41 @@ class Animal {
 
     }
 
-    static getUsersStorage () {
+    static getAnimalStorage () {
 
-        let users = [];
+        let animals = [];
 
-        if (localStorage.getItem("users")) {
+        if (localStorage.getItem("animals")) {
 
-            users = JSON.parse(localStorage.getItem("users"));
+            animals = JSON.parse(localStorage.getItem("animals"));
 
         }
 
-        return users
+        return animals;
 
     }
 
     getNewID(){
 
-        let usersID = parseInt(localStorage.getItem("usersID"));
+        let animalID = parseInt(localStorage.getItem("animalID"));
 
-        if (!usersID > 0) usersID = 0;
+        if (!animalID > 0) usersID = 0;
 
-        usersID++;
+        animalID++;
 
-        localStorage.setItem("usersID", usersID);
+        localStorage.setItem("animalID", animalID);
 
-        return usersID;
+        return animalID;
 
     }
 
     save() {
 
-        let users = Animal.getUsersStorage();
+        let animal = Animal.getUsersStorage();
 
         if (this.id > 0) {
 
-            users.map(u => {
+            animal.map(u => {
 
                 if (u._id == this._id) {
 
@@ -131,28 +131,28 @@ class Animal {
 
             this._id = this.getNewID();
 
-            users.push(this);
+            animal.push(this);
         }
 
-        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("animal", JSON.stringify(animal));
 
     }
 
     remove() {
 
-        let users = Animal.getUsersStorage();
+        let animal = Animal.getUsersStorage();
 
-        users.forEach((userData, index) => {
+        animal.forEach((animalData, index) => {
 
-            if (this._id == userData._id) {
+            if (this._id == animalData._id) {
 
-                users.splice(index, 1)
+                animal.splice(index, 1)
 
             }
 
         });
 
-        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("animal", JSON.stringify(animal));
 
     }
 

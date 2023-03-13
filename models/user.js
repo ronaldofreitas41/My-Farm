@@ -11,16 +11,10 @@ class User {
         this._phoneNumber = phoneNumber;
         this._photo = photo;
         this._admin = admin;
-        this._register = new Date();
-
     }
 
     get id() {
         return this.id;
-    }
-
-    get register() {
-        return this._register;
     }
 
     get name() {
@@ -91,7 +85,7 @@ class User {
 
     save() {//Verifica se um usuario possui um id caso contrario gera um novo para o mesmo
 
-        let users = Animal.getUsersStorage();
+        let users = User.getUsersStorage();
 
         if (this.id > 0) {
 
@@ -133,7 +127,7 @@ class User {
 
     remove() {
 
-        let users = Animal.getUsersStorage();
+        let users = User.getUsersStorage();
 
         users.forEach((userData, index) => {
 
