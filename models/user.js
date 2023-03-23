@@ -13,10 +13,6 @@ class User {
         this._photo = photo;
     }
 
-    get id() {
-        return this.id;
-    }
-
     get name() {
         return this._name;
     }
@@ -65,19 +61,17 @@ class User {
 
     }
 
-    getNewID() {//Metodo de gerar um novo Id para cada usuario
-
-        let usersID = parseInt(localStorage.getItem("usersID"));
-
-        if (!usersID > 0) window.id = 0;
-
-        usersID++;
-
-        localStorage.setItem("usersID", usersID);
-
-        return id;
-
-    }
+    getNewID() {
+        let animalID = parseInt(localStorage.getItem("userID"));
+    
+        if (!animalID > 0) animalID = 0;
+    
+        animalID++;
+    
+        localStorage.setItem("userID", animalID);
+    
+        return animalID;
+      }
 
     save() {//Verifica se um usuario possui um id caso contrario gera um novo para o mesmo
 

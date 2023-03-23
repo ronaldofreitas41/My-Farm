@@ -19,6 +19,8 @@ class UserController {
 
       let values = this.getValues(this.formEl);
 
+      alert("Usuario cadastrado com sucesso!");
+
       if (!values) return false;
 
       this.getPhoto(this.formEl, values.gender).then(
@@ -26,18 +28,12 @@ class UserController {
           values.photo = content;
 
           values.save();
-
-          this.addLine(values);
-
-          this.formEl.reset();
-
-          btn.disabled = false;
         },
         (e) => {
           console.error(e);
         }
       );
-      location.href = "Login.html";
+      //location.href = "Login.html";
     });
   }
 
@@ -64,7 +60,7 @@ class UserController {
       if (file) {
         fileReader.readAsDataURL(file);
       } else {
-        if (gender == masculino) {
+        if (gender == "Masculino") {
           resolve("dist/img/avatar5.png");
         } else {
           resolve("dist/img/avatar4.png");
@@ -76,7 +72,7 @@ class UserController {
   getValues(formEl) {
     let user = {};
     let isValid = true;
-
+    
     [...formEl.elements].forEach(function (field, index) {
       if (["name"].indexOf(field.name) > -1 && !field.value) {
         field.parentElement.classList.add("has-error");
@@ -95,10 +91,11 @@ class UserController {
     if (!isValid) {
       return false;
     }
-
-    if (user.senha !== user.senhaR) {
+    console.log(user);
+    if (user.password !== user.passwordR) {
       alert("As senhas não coincidem!");
-      this.onSubmit(); // Impede o envio do formulário
+      this.getValues()
+      // Impede o envio do formulário
     }
 
     return new User(
