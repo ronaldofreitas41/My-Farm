@@ -1,6 +1,4 @@
-import Animal from './Animal.js';
-
-export class BovinoCorte extends Animal {
+class BovinoCorte extends Animal {
     constructor (name, monName, dadName, gender, birth, breed, earing, photo, matrix, peso){
         super(name, monName, dadName, gender, birth, breed, earing, photo, matrix);
         this._peso = peso; //Peso do Animal em @

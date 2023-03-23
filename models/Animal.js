@@ -1,4 +1,4 @@
-export class Animal {
+class Animal {
     
     constructor (name, monName, dadName, gender, birth, breed, earing, photo, matrix){
 
@@ -99,7 +99,7 @@ export class Animal {
 
         let animalID = parseInt(localStorage.getItem("animalID"));
 
-        if (!animalID > 0) usersID = 0;
+        if (!animalID > 0) animalID = 0;
 
         animalID++;
 
@@ -111,7 +111,7 @@ export class Animal {
 
     save() {
 
-        let animal = Animal.getUsersStorage();
+        let animal = Animal.getAnimalStorage();
 
         if (this.id > 0) {
 
@@ -140,7 +140,7 @@ export class Animal {
 
     remove() {
 
-        let animal = Animal.getUsersStorage();
+        let animal = Animal.getAnimalStorage();
 
         animal.forEach((animalData, index) => {
 
