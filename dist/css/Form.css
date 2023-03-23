@@ -2,12 +2,17 @@
 
 html {
   background-color: #124f6d;
+  height: auto;
+  width: auto;
+  margin: auto;
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  height: 100vh;
+  height: auto;
+  width: auto;
   margin: auto;
+  overflow-x: hidden;
 }
 
 form

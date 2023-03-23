@@ -1,5 +1,5 @@
 class LeiteController {
-  constructor(formIdCreate, formIdUpdate, tableId) {
+  constructor(formIdCreate, formIdUpdate, tableId, cont) {
     this.formEl = document.getElementById(formIdCreate);
     this.formUpdateEl = document.getElementById(formIdUpdate);
     this.tableEl = document.getElementById(tableId);
@@ -8,7 +8,7 @@ class LeiteController {
 
     this.onSubmit();
     this.onEdit();
-    this.selectAll();
+    this.selectAll(cont);
   }
 
   onEdit() {
@@ -47,7 +47,7 @@ class LeiteController {
 
           animal.loadFromJSON(result);
 
-          animal.save();
+          animal.save("L");
 
           this.getTr(animal, tr);
 
@@ -83,7 +83,7 @@ class LeiteController {
         (content) => {
           values.photo = content;
 
-          values.save();
+          values.save("L");
 
           this.addLine(values);
 
@@ -151,7 +151,6 @@ class LeiteController {
       return false;
     }
 
-
     let boi = new BovinoLeite(
       animal.name,
       animal.nameM,
@@ -168,16 +167,18 @@ class LeiteController {
     return boi;
   }
 
-  selectAll() {
-    let animals = Animal.getAnimalStorage();
+  selectAll(cont) {
+    if (cont == 0) {
+      let animals = Animal.getAnimalStorage("L");
 
-    animals.forEach((dataanimal) => {
-      let animal = new BovinoLeite();
+      animals.forEach((dataanimal) => {
+        let animal = new BovinoCorte();
 
-      animal.loadFromJSON(dataanimal);
+        animal.loadFromJSON(dataanimal);
 
-      this.addLine(animal);
-    });
+        this.addLine(animal);
+      });
+    }
   }
 
   addLine(dataanimal) {
@@ -216,12 +217,12 @@ class LeiteController {
     tr.querySelector(".btn-delete").addEventListener("click", (e) => {
       if (confirm("Deseja relamente excluir?")) {
         let animal = new Animal();
-        
+
         animal.loadFromJSON(JSON.parse(tr.dataset.animal));
 
-        animal.remove();
+        animal.remove("L");
 
-        tr.remove();
+        tr.remove("L");
 
         this.updateCount();
       }
@@ -261,6 +262,7 @@ class LeiteController {
           field.value = json[name];
         }
       }
+      console.log(json._photo);
 
       this.formUpdateEl.querySelector(".photo").src = json._photo;
 
@@ -269,13 +271,13 @@ class LeiteController {
   }
 
   showPanelCreate() {
-    document.querySelector("#box-animal-create").style.display = "block";
-    document.querySelector("#box-animal-update").style.display = "none";
+    this.boxCreateEl.style.display = "block";
+    this.boxUpdateEl.style.display = "none";
   }
 
   showPanelUpdate() {
-    document.querySelector("#box-animal-create").style.display = "none";
-    document.querySelector("#box-animal-update").style.display = "block";
+    this.boxCreateEl.style.display = "none";
+    this.boxUpdateEl.style.display = "block";
   }
 
   updateCount() {

@@ -4,6 +4,8 @@ const NBL = document.getElementById("box-animal-createL");
 const UBL = document.getElementById("box-animal-updateL");
 const NBC = document.getElementById("box-animal-createL");
 const UBC = document.getElementById("box-animal-updateL");
+let cont = 0;
+let cont2 = 0;
 
 leiteBtn.addEventListener("click", leite);
 corteBtn.addEventListener('click', corte);
@@ -13,7 +15,8 @@ function leite(){
         NBC.style.display = "none" 
         UBC.style.display = "none"
     }
-    let leiteController = new LeiteController("form-animal-createL", "form-animal-updateL", "table-animal");
+    let leiteController = new LeiteController("form-animal-createL", "form-animal-updateL", "table-animal", cont);
+    cont++;
 }
 
 function corte() {
@@ -21,6 +24,7 @@ function corte() {
         NBL.style.display = "none" 
         UBL.style.display = "none"
     }
-    let corteController = new CorteController("form-animal-createC", "form-animal-updateC", "table-animal");
+    let corteController = new CorteController("form-animal-createC", "form-animal-updateC", "table-animal", cont2);
+    cont2++;
 }
 

@@ -1,196 +1,114 @@
 class UserController {
+  constructor(formIdCreate) {
+    this.formEl = document.getElementById(formIdCreate);
+    this.cancelBtn = document.getElementById("cancel-btn");
+    this.saveBtn = document.getElementById("save-btn");
+    this.onSubmit();
+    this.onCancel();
+  }
 
-    constructor (formIdCreate, formIdUpdate, tableId){
+  onCancel() {
+    this.cancelBtn.addEventListener("click", (event) => {
+      location.href = "Login.html";
+    });
+  }
 
-        this.formEl = document.getElementById(formIdCreate);
-        this.formUpdateEl = document.getElementById(formIdUpdate);
-        this.tableEl = document.getElementById(tableId);
+  onSubmit() {
+    this.saveBtn.addEventListener("click", (event) => {
+      event.preventDefault();
 
-        this.onSubmit();
-        this.onEdit();
-        this.selectAll();
+      let values = this.getValues(this.formEl);
 
-    }
+      if (!values) return false;
 
-    onEdit(){
+      this.getPhoto(this.formEl, values.gender).then(
+        (content) => {
+          values.photo = content;
 
-        document.querySelector("#box-user-update .btn-cancel").addEventListener("click", e => {
+          values.save();
 
-            this.showPanelCreate();
+          this.addLine(values);
 
-        });
+          this.formEl.reset();
 
-        this.formUpdateEl.addEventListener("submit", event => {
-
-            event.preventDefault();
-
-            let btn = this.formUpdateEl.querySelector("[type=submit]")
-
-            btn.disabled = true;
-
-            let values = this.getValues(this.formUpdateEl);
-
-            let index = this.formUpdateEl.dataset.trIndex;
-
-            let tr = this.tableEl.rows[index];
-
-            let userOld = JSON.parse(tr.dataset.user);
-
-            let result = Object.assign({}, userOld, values);
-
-            this.getPhoto(this.formUpdateEl).then(
-                (content) => {
-
-                    if (!values.photo){ 
-                        result._photo = userOld._photo;
-                    } else {
-                        result._photo = content;
-                    }
-
-                    let user = new User();
-
-                    user.loadFromJSON(result);
-
-                    user.save();
-
-                    this.getTr(user, tr);
-
-                    this.updateCount();
-
-                    this.formUpdateEl.reset();
-            
-                    this.showPanelCreate();
-
-                    btn.disabled = false;
-
-                }, 
-                (e) => {
-                    console.error(e)
-                }
-            );
-
-        });
-
-    }
-
-    onSubmit(){
-
-        this.formEl.addEventListener("submit", event =>{
-
-            event.preventDefault();
-
-            let btn = this.formEl.querySelector("[type=submit]");
-
-            btn.disabled = true;
-
-            let values = this.getValues(this.formEl);
-
-            if (!values) return false;
-
-            this.getPhoto(this.formEl).then(
-                (content) => {
-
-                    values.photo = content;
-
-                    values.save();
-
-                    this.addLine(values);
-
-                    this.formEl.reset();
-
-                    btn.disabled = false;
-
-                }, 
-                (e) => {
-                    console.error(e)
-                }
-            );
-        
-        });
-
-    }
-
-    getPhoto(formEl){
-
-        return new Promise((resolve, reject) => {
-
-            let fileReader = new FileReader();
-
-            let elements = [...formEl.elements].filter(item => {
-
-                if (item.name === 'photo') {
-                    return item;
-                }
-
-            });
-
-            let file = elements[0].files[0];
-
-            fileReader.onload = () => {
-
-                resolve(fileReader.result);
-
-            };
-
-            fileReader.onerror = (e) => {
-
-                reject(e);
-
-            };
-
-            if(file) {
-                fileReader.readAsDataURL(file);
-            } else {
-                resolve('dist/img/vaca.png');
-            }
-
-        });
-
-    }
-
-    getValues(formEl){
-
-        let user = {};
-        let isValid = true;
-
-        [...formEl.elements].forEach(function(field, index){
-
-            if (['name'].indexOf(field.name) > -1 && !field.value) {
-
-                field.parentElement.classList.add("has-error");
-                isValid = false
-
-            }
-
-            if (field.name === "gender") {
-    
-                if (field.checked) {
-                    user[field.name] = field.value
-                }
-    
-            } else {
-    
-                user[field.name] = field.value
-    
-            }
-            
-    
-        });
-
-        if (!isValid) {
-            return false;
+          btn.disabled = false;
+        },
+        (e) => {
+          console.error(e);
         }
-    
-        return new User(
-            user.id,
-            user.name,
-            user.gender,
-            user.birth,
-            user.email,
-            user.password,
-            user.phoneNumber,
-            user.farmName            
-        );
-    }
-}
+      );
+      location.href = "Login.html";
+    });
+  }
 
+  getPhoto(formEl, gender) {
+    return new Promise((resolve, reject) => {
+      let fileReader = new FileReader();
+
+      let elements = [...formEl.elements].filter((item) => {
+        if (item.name === "photo") {
+          return item;
+        }
+      });
+
+      let file = elements[0].files[0];
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (e) => {
+        reject(e);
+      };
+
+      if (file) {
+        fileReader.readAsDataURL(file);
+      } else {
+        if (gender == masculino) {
+          resolve("dist/img/avatar5.png");
+        } else {
+          resolve("dist/img/avatar4.png");
+        }
+      }
+    });
+  }
+
+  getValues(formEl) {
+    let user = {};
+    let isValid = true;
+
+    [...formEl.elements].forEach(function (field, index) {
+      if (["name"].indexOf(field.name) > -1 && !field.value) {
+        field.parentElement.classList.add("has-error");
+        isValid = false;
+      }
+
+      if (field.name === "gender") {
+        if (field.checked) {
+          user[field.name] = field.value;
+        }
+      } else {
+        user[field.name] = field.value;
+      }
+    });
+
+    if (!isValid) {
+      return false;
+    }
+
+    if (user.senha !== user.senhaR) {
+      alert("As senhas não coincidem!");
+      this.onSubmit(); // Impede o envio do formulário
+    }
+
+    return new User(
+      user.name,
+      user.gender,
+      user.birth,
+      user.email,
+      user.password,
+      user.phoneNumber,
+      user.farmName
+    );
+  }
+}
