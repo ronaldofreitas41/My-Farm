@@ -1,6 +1,6 @@
 class User {
 
-    constructor(name, gender, birth, phoneNumber, email, password, photo, admin) {
+    constructor(name, gender, birth, phoneNumber, email, password, photo,farmName) {
 
         this._id;
         this._name = name;
@@ -9,8 +9,8 @@ class User {
         this._email = email;
         this._password = password;
         this._phoneNumber = phoneNumber;
+        this._farmName = farmName;
         this._photo = photo;
-        this._admin = admin;
     }
 
     get id() {
@@ -35,10 +35,6 @@ class User {
 
     get photo() {
         return this._photo;
-    }
-
-    get admin() {
-        return this._admin;
     }
 
     set photo(value) {

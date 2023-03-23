@@ -1,4 +1,4 @@
-class Animal {
+export class Animal {
     
     constructor (name, monName, dadName, gender, birth, breed, earing, photo, matrix){
 

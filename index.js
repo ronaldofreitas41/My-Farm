@@ -1,1 +1,1 @@
-let userController = new UserController("form-user-create", "form-user-update", "table-users")
+let animalController = new animalController("form-animal-create", "form-animal-update", "table-animal")

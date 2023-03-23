@@ -168,10 +168,6 @@ class UserController {
                     user[field.name] = field.value
                 }
     
-            } else if(field.name == "matrix" || field.name == "breastfeeding") {
-
-                user[field.name] = field.checked;
-
             } else {
     
                 user[field.name] = field.value
@@ -186,164 +182,15 @@ class UserController {
         }
     
         return new User(
+            user.id,
             user.name,
-            user.nameMon,
-            user.nameDad,
-            user.gender, 
-            user.birth, 
-            user.breed, 
-            user.earing, 
-            user.photo, 
-            user.matrix, 
-            user.breastfeeding, 
+            user.gender,
+            user.birth,
+            user.email,
+            user.password,
+            user.phoneNumber,
+            user.farmName            
         );
-
-    }
-
-    selectAll() {
-       
-        let users = User.getUsersStorage();
-        
-        users.forEach(dataUser => {
-
-            let user = new User();
-
-            user.loadFromJSON(dataUser);
-        
-            this.addLine(user);
-
-        });
-
-    }
-    
-    addLine(dataUser) {
-
-        let tr = this.getTr(dataUser);
-
-        this.tableEl.appendChild(tr);
-
-        this.updateCount();
-
-    }
-
-    getTr(dataUser, tr = null) {
-
-        if (tr === null) tr = document.createElement('tr');
-
-        tr.dataset.user = JSON.stringify(dataUser);
-
-        tr.innerHTML = `
-            <td><img src=${dataUser.photo} style = "width: 50px" class="img-sqaure img-sm"></td>
-            <td>${dataUser.name}</td>
-            <td>${dataUser.earing}</td>
-            <td>${dataUser.gender}</td>
-            <td>${(dataUser.matrix) ? 'Sim' : 'Não'}</td>
-            <td>
-                <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
-            </td>
-        `;
-
-        this.addEventsTr(tr);
-
-        return tr
-
-    }
-
-    addEventsTr(tr) {
-
-        tr.querySelector(".btn-delete").addEventListener("click", (e) => {
-
-            if(confirm("Deseja relamente excluir?")) {
-
-                let user = new User();
-
-                user.loadFromJSON(JSON.parse(tr.dataset.user));
-
-                user.remove();
-
-                tr.remove();
-
-                this.updateCount();
-
-            }
-
-        });
-
-        tr.querySelector(".btn-edit").addEventListener("click", e => {
-
-            let json = JSON.parse(tr.dataset.user);
-
-            this.formUpdateEl.dataset.trIndex = tr.sectionRowIndex;
-
-            for (let name in json) {
-
-                let field = this.formUpdateEl.querySelector("[name=" + name.replace("_", "") + "]");
-
-                if (field) {
-
-                    switch (field.type) {
-                        case 'file':
-                            continue;
-                            break;
-                            
-                        case 'radio':
-                            field = this.formUpdateEl.querySelector("[name=" + name.replace("_", "") + "][value=" + json[name] + "]");
-                            field.checked = true;
-                        break;
-
-                        case 'checkbox':
-                            field.checked = json[name];
-                        break;
-
-                        default:
-                            field.value = json[name];
-
-                    }
-
-                    field.value = json[name];
-                }
-
-            }
-
-            this.formUpdateEl.querySelector(".photo").src = json._photo
-            
-            this.showPanelUpdate();
-
-        });
-
-    }
-
-    showPanelCreate(){
-
-        document.querySelector("#box-user-create").style.display = "block";
-        document.querySelector("#box-user-update").style.display = "none";
-
-    }
-
-    showPanelUpdate(){
-
-        document.querySelector("#box-user-create").style.display = "none";
-        document.querySelector("#box-user-update").style.display = "block";
-
-    }
-
-    updateCount(){
-
-        let numberUsers = 0;
-        let numberAdmin = 0;
-
-        [...this.tableEl.children].forEach(tr => {
-
-            numberUsers++;
-
-            let user = JSON.parse(tr.dataset.user);
-
-            if (user._matrix) numberAdmin++;
-        })
-
-        document.querySelector("#number-users").innerHTML = numberUsers;
-        document.querySelector("#number-users-admin").innerHTML = numberAdmin;
-
     }
 }
+
