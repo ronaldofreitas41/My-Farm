@@ -33,7 +33,7 @@ class UserController {
           console.error(e);
         }
       );
-      //location.href = "Login.html";
+      location.href = "Login.html";
     });
   }
 
