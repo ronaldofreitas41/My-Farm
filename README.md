@@ -1,4 +1,3 @@
-﻿# Projeto HTML para gerenciamento de rebanhos via local Storage
-
+﻿# Projeto HTML para gerenciamento de rebanhos
 My Farm!
 
