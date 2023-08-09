@@ -1,8 +1,8 @@
 class Animal {
   constructor(
     name,
-    monName,
-    dadName,
+//    monName,
+//    dadName,
     gender,
     birth,
     breed,
@@ -12,8 +12,8 @@ class Animal {
   ) {
     this._id; //Id do animal no BD
     this._name = name; // Nome do Animal
-    this._nameM = monName; // Nome da Mãe
-    this._nameP = dadName; // Nome do Pai
+//    this._nameM = monName; // Nome da Mãe
+//    this._nameP = dadName; // Nome do Pai
     this._gender = gender; // Genero do Animal
     this._birth = birth; //Data de Nascimento
     this._earing = earing; //Brinco do animal
@@ -34,7 +34,7 @@ class Animal {
   get name() {
     return this._name;
   }
-
+/*
   get nameMon() {
     return this._nameMon;
   }
@@ -42,7 +42,7 @@ class Animal {
   get nameDad() {
     return this._nameDad;
   }
-
+*/
   get gender() {
     return this._gender;
   }

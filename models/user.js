@@ -1,15 +1,13 @@
 class User {
 
-    constructor(name, gender, birth, phoneNumber, email, password, photo,farmName) {
-
-        this._id;
+    constructor(cpf,name, gender, birth, phoneNumber, email, password, photo,farmName) {
+        this._cpf = cpf;
         this._name = name;
         this._gender = gender;
         this._birth = birth;
         this._email = email;
         this._password = password;
         this._phoneNumber = phoneNumber;
-        this._farmName = farmName;
         this._photo = photo;
     }
 
